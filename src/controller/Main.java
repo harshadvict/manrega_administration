@@ -1,12 +1,16 @@
 package controller;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
+import service.ManagerFunctionality;
+import service.WorkerLogInSignup;
+import service.managerLogin;
 import service.managerSignup;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		
 		//loop check variable
 		boolean loop_check=true;
@@ -37,16 +41,41 @@ public class Main {
 		  case 2:
 			  //manager log in part
 			  
-			  
+			  managerLogin loginObj=new managerLogin();
+			  boolean temp=loginObj.ManagerLogin();
+			  if(temp==true) {
+				  
+				  //manager functionality part calling ManagerFunctionality function to include manager functionality.
+				  
+				  ManagerFunctionality functionObj=new ManagerFunctionality();
+				  
+				  //calling method of the ManagerFunctionality class using object
+
+				  functionObj.managerFunctionality();
+			  }
+			  else {
+				  System.out.println("Alert:-please check Id/password");
+			  }
 			  break;
 		  case 3:
-			  //worker sign in part
+			  //worker sign up part
 			  
+			  //creating object for WorkerLogInSignup
 			  
+			  WorkerLogInSignup signUpObj=new WorkerLogInSignup();
+			  
+			  //calling method of the WorkerLogInSignup class using object
+			  signUpObj.workerSignUp();
 			  break;
 		  case 4:
 			  //worker log in part
 			  
+			  //creating object for WorkerLogInSignup
+
+			  WorkerLogInSignup logInObj=new WorkerLogInSignup();
+			  
+			  //calling method of the WorkerLogInSignup class using object
+			  logInObj.workerLogin();
 			  
 			  break;
 		  case 5:

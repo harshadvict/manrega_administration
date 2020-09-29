@@ -1,6 +1,9 @@
 package model;
 
+
+
 public class manregaProjectWork {
+	
 	
 	//local variable of the class
 	private long work_id;
@@ -10,10 +13,11 @@ public class manregaProjectWork {
 	private String work_duartion;
 	private long pay;
 	private String manager_name;
+	private String manager_id;
 	
 	//constructor of the class
 	public manregaProjectWork(long work_id, workerSkill skill, manregaWorkLocation location, int worker_no,
-			String work_duartion, long pay, String manager_name) {
+			String work_duartion, long pay, String manager_name,String manager_id) {
 		//super();
 		this.work_id = work_id;
 		this.skill = skill;
@@ -22,6 +26,7 @@ public class manregaProjectWork {
 		this.work_duartion = work_duartion;
 		this.pay = pay;
 		this.manager_name = manager_name;
+		this.manager_id=manager_id;
 	}
 	
 	
@@ -68,6 +73,12 @@ public class manregaProjectWork {
 	}
 	public void setManager_name(String manager_name) {
 		this.manager_name = manager_name;
+	}
+    public String getManager_id() {
+		return manager_id;
+	}
+    public void setManager_id(String manager_id) {
+		this.manager_id = manager_id;
 	}
 	
 	
