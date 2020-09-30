@@ -18,7 +18,7 @@ public class ManagerFunctionalityDao implements ManagerFunctionalityDaoInterface
 	public void newWorkDao(manregaProjectWork workObj,Connection conn) {
 		//loading new work data in the database 'work' table
 		
-		String sql="insert into work(id,location_id,skill_id,worker_number,work_duration,pay,manager_id)values(?,?,?,?,?,?,?)";
+		String sql="insert into work(id,location_id,skill_id,worker_number,work_duration,pay,manager_id,work_name,worker_working)values(?,?,?,?,?,?,?,?,?)";
 		
 		try {
 			PreparedStatement stmt=conn.prepareStatement(sql);
@@ -30,6 +30,8 @@ public class ManagerFunctionalityDao implements ManagerFunctionalityDaoInterface
 			stmt.setString(5, workObj.getWork_duartion());
 			stmt.setLong(6,workObj.getPay());
 			stmt.setString(7,workObj.getManager_id());
+			stmt.setString(8, workObj.getWork_name());
+			stmt.setInt(9,0);
 			
 			int value=stmt.executeUpdate();
 			if(value==1) {
@@ -51,7 +53,7 @@ public class ManagerFunctionalityDao implements ManagerFunctionalityDaoInterface
 	@Override
 	public ArrayList<manregaProjectWork> allWorkView(String id,Connection conn) {
 		//to see all work under manager
-		String sql="select work.id,location.name,skill.skill_name,work.worker_number,work.work_duration,work.pay,manager.name from work inner join location on work.location_id=location.id inner join skill on work.skill_id=skill.skill_id inner join manager on work.manager_id=manager.id where work.manager_id=?";
+		String sql="select work.id,work.work_name,location.name,skill.skill_name,work.worker_number,work.work_duration,work.pay,manager.name from work inner join location on work.location_id=location.id inner join skill on work.skill_id=skill.skill_id inner join manager on work.manager_id=manager.id where work.manager_id=?";
 		System.out.println("");
 		
 		ArrayList<manregaProjectWork> list=new ArrayList<>();
@@ -61,25 +63,35 @@ public class ManagerFunctionalityDao implements ManagerFunctionalityDaoInterface
 			ResultSet rs=stmt.executeQuery();
 			
 			//object for manregaProjectWork class
-			manregaProjectWork projectWorkObj=new manregaProjectWork(0, null, null, 0, null, 0, null, null);
+			//manregaProjectWork projectWorkObj=new manregaProjectWork(0, null, null, 0, null, 0, null, null,null);
 			//object for location class
-			manregaWorkLocation locationObj=new manregaWorkLocation(0, null);
+			//manregaWorkLocation locationObj=new manregaWorkLocation(0, null);
 			//object for skill class
-			workerSkill skillObj=new workerSkill(0, null);
+			//workerSkill skillObj=new workerSkill(0, null);
 			//object for manager 
 			//manregaManager managerObj=new manregaManager(null, null,null);
 			
 			while(rs.next()){
+
+				//object for manregaProjectWork class
+				manregaProjectWork projectWorkObj=new manregaProjectWork(0, null, null, 0, null, 0, null, null,null);
+				
+				//object for location class
+				manregaWorkLocation locationObj=new manregaWorkLocation(0, null);
+				//object for skill class
+				workerSkill skillObj=new workerSkill(0, null);
+				
 				projectWorkObj.setWork_id(rs.getLong(1));
-				locationObj.setLocation_name(rs.getString(2));
+				projectWorkObj.setWork_name(rs.getString(2));
+				locationObj.setLocation_name(rs.getString(3));
 				projectWorkObj.setLocation(locationObj);
-				skillObj.setSkill_name(rs.getString(3));
+				skillObj.setSkill_name(rs.getString(4));
 				projectWorkObj.setSkill(skillObj);
-				projectWorkObj.setWorker_no(rs.getInt(4));
-				projectWorkObj.setWork_duartion(rs.getString(5));
-				projectWorkObj.setPay(rs.getLong(6));
+				projectWorkObj.setWorker_no(rs.getInt(5));
+				projectWorkObj.setWork_duartion(rs.getString(6));
+				projectWorkObj.setPay(rs.getLong(7));
 				//managerObj.setManager_name(rs.getString(7));
-				projectWorkObj.setManager_name(rs.getString(7));
+				projectWorkObj.setManager_name(rs.getString(8));
 				
 				//adding object to list
 				list.add(projectWorkObj);
@@ -237,9 +249,6 @@ public class ManagerFunctionalityDao implements ManagerFunctionalityDaoInterface
 		//method to show all the skill
 		ConnectionManager con=new ConnectionManager();
 		
-		//creating object for workerSkill class
-		workerSkill skillObj=new workerSkill(0, null);
-		
 		//creating arrayList for workerSkill type
 		ArrayList<workerSkill> list=new ArrayList<>();
 		
@@ -253,9 +262,12 @@ public class ManagerFunctionalityDao implements ManagerFunctionalityDaoInterface
 			ResultSet rs=stmt.executeQuery();
 			
 			while(rs.next()) {
-				skillObj.setSkill_id(rs.getLong(1));
-				skillObj.setSkill_name(rs.getString(2));
-				 
+				
+				//creating object for workerSkill class
+				
+				//System.out.println(rs.getLong(1)+"\t\t"+rs.getString(2));
+				
+				workerSkill skillObj=new workerSkill(rs.getLong(1),rs.getString(2));
 				//adding object to the list
 				list.add(skillObj);
 				
@@ -268,6 +280,57 @@ public class ManagerFunctionalityDao implements ManagerFunctionalityDaoInterface
 		}
 		return null;
 		
+	}
+
+	@Override
+	public void showWork(Long Skill_id) {
+		// method to show work under particular skill
+		
+		ConnectionManager con=new ConnectionManager();
+		try {
+			Connection conn=con.getConnection();
+			
+			String sql="select work.id,work.work_name,location.name,skill.skill_name,work.work_duration,work.pay from work inner join location on work.location_id=location.id inner join skill on work.skill_id=skill.skill_id where skill.skill_id=?";
+		
+			PreparedStatement stmt=conn.prepareStatement(sql);
+			stmt.setLong(1, Skill_id);
+	
+			ResultSet rs=stmt.executeQuery();
+			System.out.println("-------------------------------------------------------------------------------------------------------------------");
+			System.out.print("Work Id");
+			System.out.print("\t\t");
+			System.out.print("Work Name");
+			System.out.print("\t\t");
+			System.out.print("Location Name");
+			System.out.print("\t\t");
+			System.out.print("Skill");
+			System.out.print("\t\t");
+			System.out.print("Duaration");
+			System.out.print("\t\t");
+			System.out.print("Pay per day");
+			System.out.println("\t\t");
+			System.out.println("-------------------------------------------------------------------------------------------------------------------");
+
+			while(rs.next()) {
+				System.out.print(rs.getLong(1));
+				System.out.print("\t\t");
+				System.out.print(rs.getString(2));
+				System.out.print("\t\t");
+				System.out.print(rs.getString(3));
+				System.out.print("\t\t");
+				System.out.print(rs.getString(4));
+				System.out.print("\t\t");
+				System.out.print(rs.getString(5));
+				System.out.print("\t\t");
+				System.out.print(rs.getInt(6));
+				System.out.println("\t\t");
+
+			}
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	

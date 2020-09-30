@@ -17,4 +17,5 @@ interface ManagerFunctionalityDaoInterface {
 	public void deleteSkill(Connection conn,Long id );
 	public ArrayList<workerSkill> showSkill(Connection conn);
 	public ArrayList<workerSkill> showSkill();
+	public void showWork(Long Skill_id);
 }

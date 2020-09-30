@@ -8,20 +8,20 @@ public class manregaWorkerDetails {
 	private String worker_password;
 	private workerSkill skill;
 	private manregaProjectWork work;
-	private String manager_name;
+	private Long manager_id;
 	
 	
 	//constructor of the class
 	
 	public manregaWorkerDetails(String worker_id, String worker_name, String worker_password, workerSkill skill,
-			manregaProjectWork work, String manager_name) {
+			manregaProjectWork work, Long manager_id) {
 		//super();
 		this.worker_id = worker_id;
 		this.worker_name = worker_name;
 		this.worker_password = worker_password;
 		this.skill = skill;
 		this.work = work;
-		this.manager_name = manager_name;
+		this.manager_id=manager_id;
 	}
 	
 	
@@ -58,11 +58,14 @@ public class manregaWorkerDetails {
 	public void setWork(manregaProjectWork work) {
 		this.work = work;
 	}
-	public String getManager_name() {
-		return manager_name;
+	public Long getManager_id() {
+		return manager_id;
 	}
-	public void setManager_name(String manager_name) {
-		this.manager_name = manager_name;
+
+
+
+	public void setManager_id(Long manager_id) {
+		this.manager_id = manager_id;
 	}
 	
 	

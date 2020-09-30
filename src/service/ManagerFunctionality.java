@@ -122,6 +122,8 @@ public class ManagerFunctionality implements managerFunctionalityInterface {
 			long pay=Long.parseLong(bfr.readLine());
 			System.out.println("enter manager id:->");
 			String manager_id=bfr.readLine();
+			System.out.println("enter name of work:->");
+			String work_name=bfr.readLine();
 			
 			//setting data in the workerSkill class using object to pass to the manregaProjectWork class constructor.
 			skillObj.setSkill_id(skill_id);
@@ -130,7 +132,7 @@ public class ManagerFunctionality implements managerFunctionalityInterface {
 			locationObj.setLocation_id(Location_id);
 			
 			//calling the constructor of the manregaProjectWork class
-			manregaProjectWork workObj=new manregaProjectWork(id, skillObj, locationObj, worker_no, duration, pay, null, manager_id);
+			manregaProjectWork workObj=new manregaProjectWork(id, skillObj, locationObj, worker_no, duration, pay, null, manager_id,work_name);
 			
 			//creating object for the ManagerFunctionalityDao class to load work data in database
 			ManagerFunctionalityDao functionalityDaoObj=new ManagerFunctionalityDao();
