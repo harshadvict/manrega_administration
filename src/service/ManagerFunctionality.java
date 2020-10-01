@@ -111,8 +111,47 @@ public class ManagerFunctionality implements managerFunctionalityInterface {
 			System.out.print("Work Id:->");
 			long id=Long.parseLong(bfr.readLine());
 			System.out.print("enter skill required Id:->");
+			//--------------------------------------------------------------------------------
+			//code to display the skill
+			
+			ArrayList<workerSkill> SkillList=new ArrayList<>();
+			
+			//creating object for ManagerFunctionalityDao class to show skill
+			ManagerFunctionalityDao obj=new ManagerFunctionalityDao();
+			SkillList = obj.showSkill();
+			
+			System.out.println("------------------------------");
+			System.out.println("Id\t\tSkill");
+			System.out.println("------------------------------");
+
+			for(workerSkill skillObject : SkillList) {
+				System.out.print(skillObject.getSkill_id());
+				System.out.print("\t\t");
+				System.out.print(skillObject.getSkill_name());
+			}
+			System.out.println("------------------------------");
+			System.out.println();
 			long skill_id=Long.parseLong(bfr.readLine());
+			
 			System.out.print("enter Location Id:->");
+			//----------------------------------------------------------------------------------------------
+			//code to display the location
+			
+			ArrayList<manregaWorkLocation> LocationList=new ArrayList<>();
+			
+			LocationList=obj.showLocation();
+			System.out.println("------------------------------");
+			System.out.println("Id\t\tLocation");
+			System.out.println("------------------------------");
+
+			for(manregaWorkLocation LocationObject : LocationList) {
+				System.out.print(LocationObject.getLocation_id());
+				System.out.print("\t\t");
+				System.out.print(LocationObject.getLocation_name());
+			}
+			System.out.println("------------------------------");
+			System.out.println();
+			//---------------------------------------------------------------------------------------------
 			long Location_id=Long.parseLong(bfr.readLine());
 			System.out.print("enter worker no:->");
 			int worker_no=Integer.parseInt(bfr.readLine());
@@ -232,7 +271,31 @@ public class ManagerFunctionality implements managerFunctionalityInterface {
 
 	@Override
 	public void deleteLocation(Connection conn) {
-		//function to particular location
+		
+		//code to display location
+		System.out.println("please choose the skill to be deleted");
+		System.out.println();
+		
+		ArrayList<manregaWorkLocation> LocationList=new ArrayList<>();
+		
+		ManagerFunctionalityDao obj=new ManagerFunctionalityDao();
+
+		LocationList=obj.showLocation();
+		System.out.println("------------------------------");
+		System.out.println("Id\t\tLocation");
+		System.out.println("------------------------------");
+
+		for(manregaWorkLocation LocationObject : LocationList) {
+			System.out.print(LocationObject.getLocation_id());
+			System.out.print("\t\t");
+			System.out.print(LocationObject.getLocation_name());
+		}
+		System.out.println("------------------------------");
+		System.out.println();
+		
+		
+		
+		//function for particular location
 		System.out.println("enter the  Location id need to be deleted");
 		Scanner sc=new Scanner(System.in);
 		Long id=sc.nextLong();
@@ -246,6 +309,28 @@ public class ManagerFunctionality implements managerFunctionalityInterface {
 
 	@Override
 	public void deleteSkill(Connection conn) {
+		//code part to show skill
+		System.out.println("please choose the skill to be deleted");
+		System.out.println();
+
+		ArrayList<workerSkill> SkillList=new ArrayList<>();
+		
+		//creating object for ManagerFunctionalityDao class to show skill
+		ManagerFunctionalityDao obj=new ManagerFunctionalityDao();
+		SkillList = obj.showSkill();
+		
+		System.out.println("------------------------------");
+		System.out.println("Id\t\tSkill");
+		System.out.println("------------------------------");
+
+		for(workerSkill skillObject : SkillList) {
+			System.out.print(skillObject.getSkill_id());
+			System.out.print("\t\t");
+			System.out.print(skillObject.getSkill_name());
+		}
+		System.out.println("------------------------------");
+		System.out.println();
+		
 		//function to delete particular skill
 		System.out.println("enter the  skill id need to be deleted");
 		Scanner sc=new Scanner(System.in);

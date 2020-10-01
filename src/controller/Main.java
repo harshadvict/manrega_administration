@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import service.ManagerFunctionality;
+import service.PublicPortalService;
 import service.WorkerLogInSignup;
 import service.managerLogin;
 import service.managerSignup;
@@ -20,6 +21,7 @@ public class Main {
 		
 		//while loop to perform function for no of time
 		while(loop_check) {
+		System.out.println();
 		System.out.println("-----------------------------------------------------------------------------");
 		System.out.println("\t\t\t\tMANREGA ADMINISTRATION SYSTEM");
 		System.out.println("-----------------------------------------------------------------------------");
@@ -80,14 +82,12 @@ public class Main {
 			  break;
 		  case 5:
 			  //public view part
-			  
-			  
+			  PublicPortalService publicPortalObj=new PublicPortalService();
+			  publicPortalObj.ProjectDetailForPublic();
 			  break;
 		  default:
 			  //exit the database part
-			  
-			  
-			  break;
+			   break;
 		  }
 		
 		

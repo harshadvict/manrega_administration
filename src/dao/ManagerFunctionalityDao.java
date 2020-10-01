@@ -227,7 +227,7 @@ public class ManagerFunctionalityDao implements ManagerFunctionalityDaoInterface
 					}
 					else {
 						System.out.println("----------------------------------------------------------------------------------");
-						System.out.println("Warning:-work is going using this skill");
+						System.out.println("Warning:-work is using this skill");
 						System.out.println("----------------------------------------------------------------------------------");
 					}
 				} catch (SQLException e) {
@@ -331,6 +331,43 @@ public class ManagerFunctionalityDao implements ManagerFunctionalityDaoInterface
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public ArrayList<manregaWorkLocation> showLocation() {
+		//method to show all the location
+				ConnectionManager con=new ConnectionManager();
+				
+				//creating arrayList for workerSkill type
+				ArrayList<manregaWorkLocation> list=new ArrayList<>();
+				
+				try {
+					Connection conn=con.getConnection();
+					
+					String sql="select * from location";
+					
+					PreparedStatement stmt=conn.prepareStatement(sql);
+					
+					ResultSet rs=stmt.executeQuery();
+					
+					while(rs.next()) {
+						
+						//creating object for workerSkill class
+						
+						//System.out.println(rs.getLong(1)+"\t\t"+rs.getString(2));
+						
+						manregaWorkLocation LocationObj=new manregaWorkLocation(rs.getLong(1), rs.getString(2));
+						//adding object to the list
+						list.add(LocationObj);
+						
+					}
+					return list;
+					
+				} catch (ClassNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return null;
 	}
 	
 	

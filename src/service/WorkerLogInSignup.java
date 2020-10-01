@@ -41,14 +41,19 @@ public class WorkerLogInSignup implements WorkerLogInSignupInterface {
 			System.out.println("Login Successfull");
 			System.out.println("------------------------------------------------------------------------------------------");
 			
+			String name=workerLogInObj.KnowName(id);
+			System.out.print("Id:-"+id);
+			System.out.print("\t\t");
+			System.out.print("Name:-"+name);
 			boolean loop=true;
 			do {
 				
+				System.out.println();
 				System.out.println("1.your total amout earned");
 				System.out.println("2.change work");
 				System.out.println("3.Leave Work");
 				System.out.println("4.Check your Work detail");
-
+				System.out.println("5.Log out");
 				
 				WorkerFunctionality functionalityObj=new WorkerFunctionality();
 				int choice=sc.nextInt();
@@ -76,7 +81,7 @@ public class WorkerLogInSignup implements WorkerLogInSignupInterface {
 						
 						break;
 					default:
-						//to break loop
+						
 						break;
 				}
 			}while(loop==true);

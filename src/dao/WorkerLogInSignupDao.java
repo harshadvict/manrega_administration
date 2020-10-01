@@ -24,23 +24,30 @@ public class WorkerLogInSignupDao implements WorkerLogInSignupInterfaceDao{
 			Connection conn=con.getConnection();
 			
 			//getting manager id from work id
-			String sql1="select manager.id,work.id,work.worker_number,work.worker_working from manager inner join work on work.manager_id=manager.id";
+			String sql1="select manager.id,work.id,work.worker_number,work.worker_working from manager inner join work on work.manager_id=manager.id where work.id=?";
+			
 			
 			PreparedStatement stmt =conn.prepareStatement(sql1);
+			
+			stmt.setLong(1,workerObj.getWork().getWork_id());
 			
 			ResultSet rs=stmt.executeQuery();
 			
 			int worker_required=0;
 			int worker_working=0;
-			while(rs.next()) {
-				Long manager_id=rs.getLong(1);
-				workerObj.setManager_id(manager_id);
+			rs.next();
+			Long manager_id=rs.getLong(1);
+			workerObj.setManager_id(manager_id);
 				
-				worker_required =rs.getInt(3);
-				worker_working =rs.getInt(4);
-			}
+			worker_required =rs.getInt(3);
+			worker_working =rs.getInt(4);
+			
+			
+			System.out.println(worker_required);
+			System.out.println(worker_working);
 			
 			if(worker_working<worker_required) {
+				
 			//for inserting data in the worker table in database
 			String sql2="insert into worker(id,name,pass,skill_id,work_id,work_joining,manager_id)values(?,?,?,?,?,?,?)";
 			
@@ -57,24 +64,50 @@ public class WorkerLogInSignupDao implements WorkerLogInSignupInterfaceDao{
 			
 			int i=stmt1.executeUpdate();
 			
+			
+			//increasing the worker working no in the work table
+			
 			String sql3="update work set worker_working=? where id=?";
 			
-			PreparedStatement stmt3 =conn.prepareStatement(sql1);
+			PreparedStatement stmt3 =conn.prepareStatement(sql3);
 			
-			stmt3.setLong(1,workerObj.getWork().getWork_id());
 			worker_working=worker_working+1;
-			stmt3.setLong(2,worker_working);
+			System.out.println("doing worker updation part:"+worker_working);
+
+			stmt3.setLong(1,worker_working);
+			stmt3.setLong(2,workerObj.getWork().getWork_id());
+			stmt3.executeUpdate();
+			
 			
 			if(i==1) {
 				System.out.println("-----------------------------------------------------------------------------------------");
 				System.out.println("registration successfull");
 				System.out.println("-----------------------------------------------------------------------------------------");
 			}
+			
+//			//increasing the worker working no in the work table
+//			worker_working=worker_working+1;
+//			
+//			System.out.println("doing worker updation part:"+worker_working);
+//			String sql="update work set worker_working=? where id=?";
+//			PreparedStatement stmt4=conn.prepareStatement(sql);
+//			stmt4.setLong(1, worker_working);
+//			stmt4.setLong(2,Long.parseLong(workerObj.getWorker_id()));
+			
+//	stmt4.executeUpdate();
+			
+			rs.close();
+			conn.close();
+			
 			}
 			else {
 				System.out.println("-----------------------------------------------------------------------------------------");
 				System.out.println("Sorry no place vaccant for new worker");
 				System.out.println("-----------------------------------------------------------------------------------------");
+				
+				rs.close();
+				conn.close();
+			
 			}
 			
 		} catch (ClassNotFoundException | SQLException e) {
@@ -104,6 +137,11 @@ public class WorkerLogInSignupDao implements WorkerLogInSignupInterfaceDao{
 				
 				while(rs.next()) {
 				if(rs.getString(2).equals(worker.getWorker_password())) {
+					
+					
+					rs.close();
+					conn.close();
+					
 					return true;
 					
 				}
@@ -124,6 +162,33 @@ public class WorkerLogInSignupDao implements WorkerLogInSignupInterfaceDao{
 		
 		
 		return false;
+	}
+
+	@Override
+	public String KnowName(String Id) {
+		// for knowing name of the worker
+		ConnectionManager con =new ConnectionManager();
+		try {
+			Connection conn=con.getConnection();
+			
+			String nameSql="select name from worker where id=?";
+			
+			PreparedStatement nameStmt=conn.prepareStatement(nameSql);
+			
+			nameStmt.setLong(1, Long.parseLong(Id));
+			ResultSet nameRs=nameStmt.executeQuery();
+			
+			nameRs.next();
+			String name=nameRs.getString(1);
+			
+			return name;
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return null;
 	}
 
 }

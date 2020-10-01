@@ -18,7 +18,7 @@ public class WorkerFunctionality implements WorkerFunctionalityInterface{
 		WorkerFunctionalityDao functionalityDaoObj=new WorkerFunctionalityDao();
 		
 		Long amount=functionalityDaoObj.calculateAmountDao(Id);
-		System.out.println("amount earned:-"+"₹"+amount);
+		System.out.println("amount earned:- "+"Rs"+amount);
 		return null;
 	}
 
@@ -39,6 +39,7 @@ public class WorkerFunctionality implements WorkerFunctionalityInterface{
 
 		for(workerSkill skillObj : list) {
 			System.out.print(skillObj.getSkill_id());
+			System.out.print("\t\t");
 			System.out.println(skillObj.getSkill_name());
 		}
 		System.out.println("-------------------------------------");
@@ -49,7 +50,7 @@ public class WorkerFunctionality implements WorkerFunctionalityInterface{
 		System.out.println("work under choosen skill");
 		skillPrintObj.showWork(id);
 		
-		System.out.println("Please your work id chooosen");
+		System.out.println("Please choose new work id");
 		
 		Long workId=sc.nextLong();
 		
@@ -99,9 +100,23 @@ public class WorkerFunctionality implements WorkerFunctionalityInterface{
 		System.out.println(" Your Work Detail");
 		System.out.println("----------------------------------------------------------------------------------------");
 		System.out.println("Id\t\tWork Name\t\tSkill\t\tWork Duration\t\tPay\t\tManager Name\t\tLocation Name");
-		System.out.print();
 		
-		//to do from  here
+		System.out.print(workDetailObj.getWork_id());
+		System.out.print("\t\t");
+		System.out.print(workDetailObj.getWork_name());
+		System.out.print("\t\t");
+		System.out.print(workDetailObj.getSkill().getSkill_name());
+		System.out.print("\t\t");
+		System.out.print(workDetailObj.getWork_duartion());
+		System.out.print("\t\t");
+		System.out.print(workDetailObj.getPay());
+		System.out.print("\t\t");
+		System.out.print(workDetailObj.getManager_name());
+		System.out.print("\t\t");
+		System.out.print(workDetailObj.getLocation().getLocation_name());
+		System.out.print("\t\t");
+		
+		return;
 		
 	}
 

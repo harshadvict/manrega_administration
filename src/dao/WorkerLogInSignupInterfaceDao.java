@@ -7,4 +7,6 @@ interface WorkerLogInSignupInterfaceDao {
 	
 	public boolean WorkerSignIn(manregaWorkerDetails worker);
 	
+	public String KnowName(String Id);
+	
 }
