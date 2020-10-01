@@ -47,6 +47,8 @@ public class WorkerLogInSignup implements WorkerLogInSignupInterface {
 				System.out.println("1.your total amout earned");
 				System.out.println("2.change work");
 				System.out.println("3.Leave Work");
+				System.out.println("4.Check your Work detail");
+
 				
 				WorkerFunctionality functionalityObj=new WorkerFunctionality();
 				int choice=sc.nextInt();
@@ -55,13 +57,23 @@ public class WorkerLogInSignup implements WorkerLogInSignupInterface {
 					case 1:
 						//total amount earned part/function call
 						
+						
 						functionalityObj.calculateAmount(id);
 						break;
 					case 2:
 						//change work (code-part)
+						
+						functionalityObj.changeWork(id);
 						break;
 					case 3:
 						//leave work (code-part)
+						functionalityObj.LeaveWork(id,pass);
+						System.out.println("you are not part of the MANREGA EMPLYOMENT PORTAL");
+						return;
+					case 4:
+						//see your work detail part
+						functionalityObj.showWork(id);
+						
 						break;
 					default:
 						//to break loop
