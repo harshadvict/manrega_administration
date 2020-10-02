@@ -11,5 +11,5 @@ interface managerFunctionalityInterface {
 	public void deleteLocation(Connection conn);
 	public void deleteSkill(Connection conn);
 	public void allWorker(Connection conn,String managerId);
-	public void WorkerUnderParticularWork(Connection conn);
+	public void WorkerUnderParticularWork(Connection conn,int WorkId);
 }

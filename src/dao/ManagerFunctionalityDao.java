@@ -408,6 +408,31 @@ public class ManagerFunctionalityDao implements ManagerFunctionalityDaoInterface
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void WorkerUnderParticularWork(Connection conn, int WorkId) {
+		//method to show worker under particular work id
+		String sql="select worker.name from worker where work_id=?";
+		try {
+			PreparedStatement stmt=conn.prepareStatement(sql);
+			stmt.setInt(1, WorkId);
+			
+			ResultSet rs=stmt.executeQuery();
+			System.out.println("---------------------");
+			System.out.println("\tName of worker");
+			System.out.println("---------------------");
+
+			while(rs.next()){
+				System.out.println(rs.getString(1));
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
 	
 	
 }

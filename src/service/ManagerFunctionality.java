@@ -72,7 +72,9 @@ public class ManagerFunctionality implements managerFunctionalityInterface {
 			allWorker(conn,managerId);
 			break;
 		case 9:
-			WorkerUnderParticularWork(conn);
+			System.out.println("Enter the work id");
+			int workId=sc.nextInt();
+			WorkerUnderParticularWork(conn,workId);
 			break;
 		default:
 			check=false;
@@ -394,8 +396,10 @@ public class ManagerFunctionality implements managerFunctionalityInterface {
 	}
 
 	@Override
-	public void WorkerUnderParticularWork(Connection conn) {
+	public void WorkerUnderParticularWork(Connection conn,int workId) {
 		//function to see worker under particular work
 		//to be added
+		ManagerFunctionalityDao functionalityDaoObj=new ManagerFunctionalityDao();
+		functionalityDaoObj.WorkerUnderParticularWork(conn, workId);
 	}
 }
