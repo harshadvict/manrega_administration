@@ -53,7 +53,7 @@ public class ManagerFunctionalityDao implements ManagerFunctionalityDaoInterface
 	@Override
 	public ArrayList<manregaProjectWork> allWorkView(String id,Connection conn) {
 		//to see all work under manager
-		String sql="select work.id,work.work_name,location.name,skill.skill_name,work.worker_number,work.work_duration,work.pay,manager.name from work inner join location on work.location_id=location.id inner join skill on work.skill_id=skill.skill_id inner join manager on work.manager_id=manager.id where work.manager_id=?";
+		String sql="select work.id,work.work_name,location.name,skill.skill_name,work.worker_number,work.work_duration,work.pay,manager.name,work.worker_working from work inner join location on work.location_id=location.id inner join skill on work.skill_id=skill.skill_id inner join manager on work.manager_id=manager.id where work.manager_id=?";
 		System.out.println("");
 		
 		ArrayList<manregaProjectWork> list=new ArrayList<>();
@@ -92,6 +92,7 @@ public class ManagerFunctionalityDao implements ManagerFunctionalityDaoInterface
 				projectWorkObj.setPay(rs.getLong(7));
 				//managerObj.setManager_name(rs.getString(7));
 				projectWorkObj.setManager_name(rs.getString(8));
+				projectWorkObj.setCurrently_working_worker(rs.getInt(9));
 				
 				//adding object to list
 				list.add(projectWorkObj);
@@ -106,6 +107,7 @@ public class ManagerFunctionalityDao implements ManagerFunctionalityDaoInterface
 
 	@Override
 	public void addSkill(workerSkill skillObj,Connection Conn) {
+		
 		//for adding new skill to the database
 		String sql="insert into skill(skill_id,skill_name)values(?,?)";
 		try {
@@ -177,7 +179,7 @@ public class ManagerFunctionalityDao implements ManagerFunctionalityDaoInterface
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("work can not be deleted work in progress or worker may be working");
 		}
 	}
 
@@ -204,7 +206,8 @@ public class ManagerFunctionalityDao implements ManagerFunctionalityDaoInterface
 						}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Location can not be deleted work on this location in progress or worker may be working");
+
 				}
 		
 	}
@@ -232,7 +235,8 @@ public class ManagerFunctionalityDao implements ManagerFunctionalityDaoInterface
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Skill can not be deleted beacuse worker with the skill may be working");
+
 				}
 		
 		}
@@ -368,6 +372,41 @@ public class ManagerFunctionalityDao implements ManagerFunctionalityDaoInterface
 					e.printStackTrace();
 				}
 				return null;
+	}
+
+	@Override
+	public void ShowAllWorker(Connection con, String managerId) {
+		// dao method to show all the worker working under manager
+		String sql="select worker.name,work.work_name,worker.work_joining,work.pay,location.name from worker inner join work on worker.work_id=work.id inner join location on work.location_id=location.id where worker.manager_id=?";
+		try {
+			PreparedStatement stmt=con.prepareStatement(sql);
+			stmt.setLong(1,Long.parseLong(managerId));
+			ResultSet rs=stmt.executeQuery();
+			
+			System.out.println("---------------------------------------------------------------------------------------------------");
+			System.out.println("Worker name\t\tWork Name\t\tJoining date\t\tPay per day\t\tWork Location");
+			System.out.println("---------------------------------------------------------------------------------------------------");
+			
+			
+			while(rs.next()) {
+				System.out.print(rs.getString(1));
+				System.out.print("\t\t");
+				System.out.print(rs.getString(2));
+				System.out.print("\t\t");
+
+				System.out.print(rs.getString(3));
+				System.out.print("\t\t");
+
+				System.out.print(rs.getInt(4));
+				System.out.print("\t\t");
+
+				System.out.println(rs.getString(5));
+			}
+			return;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	

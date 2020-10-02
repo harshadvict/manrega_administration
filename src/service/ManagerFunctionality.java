@@ -16,7 +16,7 @@ import utility.ConnectionManager;
 
 public class ManagerFunctionality implements managerFunctionalityInterface {
 
-	public void managerFunctionality() throws ClassNotFoundException, SQLException {
+	public void managerFunctionality(String managerId) throws ClassNotFoundException, SQLException {
 		
 
 		//creating object for connectionManager class
@@ -69,7 +69,7 @@ public class ManagerFunctionality implements managerFunctionalityInterface {
 			deleteSkill(conn);
 			break;
 		case 8:
-			allWorker(conn);
+			allWorker(conn,managerId);
 			break;
 		case 9:
 			WorkerUnderParticularWork(conn);
@@ -127,7 +127,7 @@ public class ManagerFunctionality implements managerFunctionalityInterface {
 			for(workerSkill skillObject : SkillList) {
 				System.out.print(skillObject.getSkill_id());
 				System.out.print("\t\t");
-				System.out.print(skillObject.getSkill_name());
+				System.out.println(skillObject.getSkill_name());
 			}
 			System.out.println("------------------------------");
 			System.out.println();
@@ -147,7 +147,7 @@ public class ManagerFunctionality implements managerFunctionalityInterface {
 			for(manregaWorkLocation LocationObject : LocationList) {
 				System.out.print(LocationObject.getLocation_id());
 				System.out.print("\t\t");
-				System.out.print(LocationObject.getLocation_name());
+				System.out.println(LocationObject.getLocation_name());
 			}
 			System.out.println("------------------------------");
 			System.out.println();
@@ -205,27 +205,50 @@ public class ManagerFunctionality implements managerFunctionalityInterface {
 		
 		list=functionalityDaoObj.allWorkView(id, conn);
 		
-		System.out.println("Work Id\t\tLocation name\t\tSkill Required\t\tRequired worker number\t\t Work Duration\t\tPay Per Day\t\tUnder Manager ");
+		System.out.println("Work Id\t\tLocation name\t\tSkill Required\t\tRequired worker number\t\t Work Duration\t\tPay Per Day\t\tUnder Manager\t\tcurrently no of worker");
 		for(manregaProjectWork obj :list) {
 			System.out.print(obj.getWork_id());
 			System.out.print("\t\t");
 			System.out.print(obj.getLocation().getLocation_name());
 			System.out.print("\t\t");
 			System.out.print(obj.getSkill().getSkill_name());
-			System.out.print("\t\t");
+			System.out.print("\t\t\t");
 			System.out.print(obj.getWorker_no());
-			System.out.print("\t\t");
+			System.out.print("\t\t\t");
 			System.out.print(obj.getWork_duartion());
-			System.out.print("\t\t");
+			System.out.print("\t\t\t");
 			System.out.print(obj.getPay());
-			System.out.print("\t\t");
-			System.out.println(obj.getManager_name());
-			System.out.println("=============================================================================================");
+			System.out.print("\t\t\t");
+			System.out.print(obj.getManager_name());
+			System.out.print("\t\t\t");
+			System.out.println(obj.getCurrently_working_worker());
+			System.out.println();
 		}
+		System.out.println("===============================================================================================================================");
+
 	}
 
 	@Override
 	public void addSkill(Connection conn) {
+		//to show previous skill
+		
+		
+		 ManagerFunctionalityDao functionalityDaoObj=new ManagerFunctionalityDao();
+		 ArrayList<workerSkill> list=new ArrayList<>();
+
+	     list=functionalityDaoObj.showSkill();
+	     System.out.println("----------------------------------------------------------------------------------");
+	     System.out.println("Id\t\tSkill");
+	    	for(workerSkill obj:list) {
+					System.out.print(obj.getSkill_id());
+					System.out.print("\t\t");
+					System.out.println(obj.getSkill_name());
+
+		    }
+		System.out.println("----------------------------------------------------------------------------------");
+				
+		
+		
 		// function to add skill
 		System.out.println("Please enter new skill id");
 		Scanner sc=new Scanner(System.in);
@@ -235,12 +258,29 @@ public class ManagerFunctionality implements managerFunctionalityInterface {
 		String Skill_name=sc.nextLine();
 		workerSkill skillObj=new workerSkill(skill_id, Skill_name);
 		
-		ManagerFunctionalityDao functionalityDaoObj=new ManagerFunctionalityDao();
 		functionalityDaoObj.addSkill(skillObj, conn);
 	}
 
 	@Override
 	public void addLocation(Connection conn) {
+		//show all available location
+		
+		 ManagerFunctionalityDao functionalityDaoObj=new ManagerFunctionalityDao();
+		 ArrayList<manregaWorkLocation> list=new ArrayList<>();
+
+		list=functionalityDaoObj.showLocation();
+		   System.out.println("----------------------------------------------------------------------------------");
+		     System.out.println("Id\t\tLocation");
+		    	for(manregaWorkLocation obj :list) {
+						System.out.print(obj.getLocation_id());
+						System.out.print("\t\t");
+						System.out.println(obj.getLocation_name());
+
+			    }
+			System.out.println("----------------------------------------------------------------------------------");
+					
+			
+		
 		// function to add location
 		System.out.println("Please enter new location id");
 		Scanner sc=new Scanner(System.in);
@@ -250,7 +290,6 @@ public class ManagerFunctionality implements managerFunctionalityInterface {
 		String location_name=sc.nextLine();
 		manregaWorkLocation locationObj=new manregaWorkLocation(location_id, location_name);
 		
-		ManagerFunctionalityDao functionalityDaoObj=new ManagerFunctionalityDao();
 		functionalityDaoObj.addLocation(locationObj, conn);
 	}
 
@@ -344,9 +383,14 @@ public class ManagerFunctionality implements managerFunctionalityInterface {
 	}
 
 	@Override
-	public void allWorker(Connection conn) {
+	public void allWorker(Connection conn,String managerId) {
 		//function to see all worker
 		//to be added
+		System.out.println("all worker under you");
+		ManagerFunctionalityDao functionalityDaoObj=new ManagerFunctionalityDao();
+		
+		functionalityDaoObj.ShowAllWorker(conn, managerId);
+		
 	}
 
 	@Override

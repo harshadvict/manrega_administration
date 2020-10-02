@@ -8,7 +8,7 @@ import model.manregaManager;
 public class managerLogin implements managerLoginInterface{
 
 	@Override
-	public boolean ManagerLogin() {
+	public String ManagerLogin() {
 		
 		System.out.println("please enter the id");
 		Scanner sc=new Scanner(System.in);
@@ -28,7 +28,10 @@ public class managerLogin implements managerLoginInterface{
 		
 		//calling method of the managerLoginDao
 		boolean present =loginObj.managerLogin(managerObj);
-		return present;
+		if(present ==true) {
+			return id;
+		}
+		else return "false"; 
 	}
 
 }

@@ -81,7 +81,7 @@ public class WorkerLogInSignup implements WorkerLogInSignupInterface {
 						
 						break;
 					default:
-						
+						loop=false;
 						break;
 				}
 			}while(loop==true);

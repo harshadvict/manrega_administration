@@ -44,19 +44,19 @@ public class Main {
 			  //manager log in part
 			  
 			  managerLogin loginObj=new managerLogin();
-			  boolean temp=loginObj.ManagerLogin();
-			  if(temp==true) {
+			  String tempId=loginObj.ManagerLogin();
+			  if(tempId.equals("false")) {
+				  System.out.println("Alert:-please check Id/password");
 				  
+			  }
+			  else {
 				  //manager functionality part calling ManagerFunctionality function to include manager functionality.
 				  
 				  ManagerFunctionality functionObj=new ManagerFunctionality();
 				  
 				  //calling method of the ManagerFunctionality class using object
 
-				  functionObj.managerFunctionality();
-			  }
-			  else {
-				  System.out.println("Alert:-please check Id/password");
+				  functionObj.managerFunctionality(tempId);
 			  }
 			  break;
 		  case 3:

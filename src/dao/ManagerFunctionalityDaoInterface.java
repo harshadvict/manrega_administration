@@ -19,4 +19,5 @@ interface ManagerFunctionalityDaoInterface {
 	public ArrayList<workerSkill> showSkill();
 	public void showWork(Long Skill_id);
 	public ArrayList<manregaWorkLocation> showLocation();
+	public void ShowAllWorker(Connection con,String managerId);
 }

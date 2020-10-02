@@ -1,5 +1,5 @@
 package service;
 
 interface managerLoginInterface {
-	public boolean ManagerLogin();
+	public String ManagerLogin();
 }

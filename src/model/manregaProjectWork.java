@@ -15,10 +15,11 @@ public class manregaProjectWork {
 	private String manager_name;
 	private String manager_id;
 	private String work_name;
+	private int currently_working_worker;
 	
 	//constructor of the class
 	public manregaProjectWork(long work_id, workerSkill skill, manregaWorkLocation location, int worker_no,
-			String work_duartion, long pay, String manager_name,String manager_id ,String work_name ) {
+			String work_duartion, long pay, String manager_name,String manager_id ,String work_name) {
 		//super();
 		this.work_id = work_id;
 		this.skill = skill;
@@ -28,7 +29,7 @@ public class manregaProjectWork {
 		this.pay = pay;
 		this.manager_name = manager_name;
 		this.manager_id=manager_id;
-		this.setWork_name(work_name);
+		this.work_name=work_name;
 	}
 	
 	
@@ -91,6 +92,16 @@ public class manregaProjectWork {
 
 	public void setWork_name(String work_name) {
 		this.work_name = work_name;
+	}
+
+
+	public int getCurrently_working_worker() {
+		return currently_working_worker;
+	}
+
+
+	public void setCurrently_working_worker(int currently_working_worker) {
+		this.currently_working_worker = currently_working_worker;
 	}
 	
 	
