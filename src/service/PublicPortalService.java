@@ -22,7 +22,7 @@ public class PublicPortalService implements PublicPortalServiceInterface{
 			OngoingProject();
 			break;
 		default:
-			break;
+			break; 
 		}
 		
 	}
